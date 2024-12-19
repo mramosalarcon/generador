@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Generador de Aplicaciones</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Generador de Aplicaciones</h1>
+    <p>Selecciona un arquetipo y genera tu aplicación en minutos</p>
+  </header>
+  <main>
+    <section class="archetypes">
+      <div class="archetype-card">
+        <h2>E-commerce</h2>
+        <p>Una tienda en línea con carrito de compras y pasarela de pagos.</p>
+        <button onclick="selectArchetype('ecommerce')">Seleccionar</button>
+      </div>
+      <div class="archetype-card">
+        <h2>Blog</h2>
+        <p>Un blog sencillo para compartir tus ideas y comentarios.</p>
+        <button onclick="selectArchetype('blog')">Seleccionar</button>
+      </div>
+      <div class="archetype-card">
+        <h2>CRM</h2>
+        <p>Gestión de clientes con panel de administración.</p>
+        <button onclick="selectArchetype('crm')">Seleccionar</button>
+      </div>
+      <div class="archetype-card">
+        <h2>Web app</h2>
+        <p>Aplicación web para kubernetes</p>
+        <button onclick="selectArchetype('web')">Seleccionar</button>
+      </div>
+      <div class="archetype-card">
+        <h2>Mobile app</h2>
+        <p>Aplicación móvil para iOs/Android</p>
+        <button onclick="selectArchetype('mobile')">Seleccionar</button>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2024 Generador de Aplicaciones</p>
+  </footer>
+  <script>
+    function selectArchetype(type) {
+      window.location.href = `config.html?type=${type}`;
+    }
+  </script>
+</body>
+</html>

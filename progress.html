@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generando tu Aplicación</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <header>
+    <h1>Generando tu Aplicación</h1>
+    <p>Por favor, espera mientras procesamos tu solicitud...</p>
+  </header>
+  <main>
+    <div class="progress">
+      <div class="progress-bar"></div>
+    </div>
+    <p>Esto puede tomar unos segundos. No cierres esta página.</p>
+  </main>
+  <footer>
+    <p>&copy; 2024 Generador de Aplicaciones</p>
+  </footer>
+  <script>
+    const progressBar = document.querySelector('.progress-bar');
+
+    // Simula una barra de progreso mientras se realiza la solicitud
+    let width = 0;
+    const interval = setInterval(() => {
+      if (width >= 90) {
+        clearInterval(interval); // Detiene el progreso en 90% hasta que el backend responda
+        generateApp();
+      } else {
+        width += 10;
+        progressBar.style.width = `${width}%`;
+      }
+    }, 500);
+
+    // Función para hacer la llamada al backend
+    async function generateApp() {
+      // Obtiene los datos enviados desde config.html
+      const queryParams = new URLSearchParams(window.location.search);
+      const data = {
+        type: queryParams.get('type'),
+        appName: queryParams.get('appName'),
+        theme: queryParams.get('theme'),
+        features: queryParams.getAll('features'),
+      };
+      console.log(data);
+      try {
+        const response = await fetch('http://localhost:3000/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          // Completa la barra de progreso al 100%
+          progressBar.style.width = '100%';
+
+          // Descarga el archivo generado
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${data.appName}.zip`;
+          a.click();
+          window.URL.revokeObjectURL(url);
+
+          alert('Aplicación generada y descargada exitosamente.');
+          window.location.href = 'index.html'; // Regresa a la página inicial
+        } else {
+          alert('Hubo un problema al generar la aplicación.');
+          window.location.href = 'index.html';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error al conectar con el servidor.');
+        window.location.href = 'index.html';
+      }
+    }
+
+    // Llama a la función después de cargar la página
+    //window.onload = generateApp;
+  </script>
+</body>
+
+</html>

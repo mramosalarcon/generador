@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración del Arquetipo</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <header>
+    <h1>Configuración del Arquetipo</h1>
+    <p>Personaliza tu aplicación antes de generarla</p>
+  </header>
+  <main>
+    <form id="config-form">
+      <label for="app-name">Nombre de la Aplicación:</label>
+      <input type="text" id="app-name" name="appName" placeholder="Ejemplo: MiTienda" required>
+
+      <label for="theme">Tema de Color:</label>
+      <select id="theme" name="theme">
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+      </select>
+
+      <fieldset>
+        <legend>Funciones Adicionales:</legend>
+        <label><input type="checkbox" name="features" value="user">Manejo de usuarios</label>
+        <label><input type="checkbox" name="features" value="product">Catálogo de productos</label>
+        <label><input type="checkbox" name="features" value="cart"> Carrito de Compras</label>
+        <label><input type="checkbox" name="features" value="payments"> Pasarela de Pagos</label>
+      </fieldset>
+
+      <button type="button" onclick="generateApp()">Generar Aplicación</button>
+    </form>
+  </main>
+  <footer>
+    <p>&copy; 2024 Generador de Aplicaciones</p>
+  </footer>
+  <script>
+    async function generateApp() {
+      // Obtiene el query string de la URL
+    const queryParams = new URLSearchParams(window.location.search); 
+
+      const form = document.getElementById('config-form');
+      const formData = new FormData(form);
+
+      const data = {
+        type: queryParams.get('type'),
+        appName: formData.get('appName'),
+        theme: formData.get('theme'),
+        features: formData.getAll('features'),
+      };
+      // Redirige a la página de progreso antes de realizar la solicitud
+      window.location.href = `progress.html?type=${data.type}&appName=${data.appName}&theme=${data.theme}&features=${data.features.join(',')}`;
+    }
+
+  </script>
+</body>
+
+</html>
